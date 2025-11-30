@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <!-- 只有v-memo渲染选中的改变其他才能一起改变 -->
+    <div v-memo="[dent]">
+      <div>第一:{{ message }}</div>
+      <div>第二:{{ dent }}</div>
+      <div>第三:{{ cart }}</div>
+    </div>
+    <button @click="changeMsg">change</button>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'message',
+          dent: 'dent',
+          cart: 'cart'
+        }
+      },
+      methods: {
+        changeMsg: function () {
+          this.cart = 'cart1'
+          this.message = 'message1'
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-bind绑定class -->
+  <div id="app">
+    <!-- 1,基本绑定class,属性里面不能加{{ }}和小程序不同 -->
+    <h2 :class="classes">limb</h2>
+
+    <!-- 2,动态绑定class可以写对象语法 -->
+    <!-- trggle按钮/change切换(是否交换)启用条件 -->
+    <!-- 当有v-show=true/false,则使用!(a=!a) -->
+    <!-- 无看实物有多少个,一个(active)则要用!和三元(a ? active: "") -->
+    <!-- 2个,则加一个当载体,然后class=载体 -->
+
+    <button :class=" isActive ? 'active' : '' " @click="changeClass">2,bindClass</button>
+
+    <!-- 2.1,对象语法 -->
+    <!-- 这里了有个特殊的装换机制 -->
+    <button :class="{ active: isActive }" @click="changeClass">对象语法</button>
+
+    <!-- 2.2,对象语法的多个键值对 -->
+    <button :class="{ asset: true, vibrate: false }"></button>
+
+    <!-- 2.3,动态绑定的class可以和普通class使用 -->
+    <div :class="classes" class="log">2.3</div>
+
+    <!-- 2.4,动态绑定的class可以调用函数 -->
+    <button :class="getDynamic()">dynamicClass</button>
+  
+    <!-- 3,动态绑定可以写数组(no important) -->
+    <h2 :class="['cucumber', 'barn']">3</h2>
+    <h2 :class="['repeater', classes]">3.1</h2>
+    <h2 :class="['crucial', isActive? 'active': '']">3.2</h2>
+    <h2 :class="['elbow', {active : isActive}]">3.3</h2>
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          classes: 'abc cba',
+          isActive: false
+        }
+      },
+      methods: {
+        changeClass() {
+          this.isActive = !this.isActive
+        },
+
+        //dynamicClass
+        getDynamic() {
+          return 'cliff democracy dynamic'
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

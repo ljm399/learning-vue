@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      height: 100px;
+      width: 100px;
+      background-color: #080;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <!-- v-on绑定支持修饰符 -->
+    <div class="box" @click="divClick">
+      <!-- 阻止事件冒泡(写法一) -->
+      <!-- 其他修饰符:once,left,right可以写在一起 -->
+      <button @click.stop.right.once="btnClick">modifiers</button>
+
+      <!-- prevent阻止默认事件,遇到再说 -->
+      <!-- 这是事件绑定,你不能绑定属性如href,绑这个用v-bind -->
+      <!-- <a @click.prevent="" href="baidu.com">百度一下</a> -->
+    </div>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          href: 'https://www.baidu.com'
+        }
+      },
+      methods: {
+        divClick: function () {
+          console.log('div click')
+        },
+        btnClick: function (event) {
+          // 阻止事件冒泡(写法er)
+          // event.stopPropagation()
+          console.log('button click')
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

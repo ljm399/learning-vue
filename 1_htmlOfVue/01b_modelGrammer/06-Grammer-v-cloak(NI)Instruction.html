@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    [v-cloak] {
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- v-cloak渲染会等js渲染才展示 -->
+  <div id="app">
+    <h2 v-cloak>{{ message }}</h2>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    setTimeout(() => {
+      const app = Vue.createApp({
+  
+        data: function () {
+          return {
+            message: 'vibrate'
+          }
+        },
+        methods: {
+        }
+  
+      })
+      // 挂载应用
+      app.mount('#app')
+    }, 3000);
+  </script>
+</body>
+</html>

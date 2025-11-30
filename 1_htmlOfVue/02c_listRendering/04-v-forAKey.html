@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-for渲染和:key钥匙和v-on:key钥匙 -->
+  <div id="app">
+    <!-- 非对象用其本事,小程序是*this,vue是item -->
+    <!-- 不是v-key而是:/v-on -->
+    <template v-for=" item in message" :key="item">
+      {{ item }}
+    </template>
+
+    <!-- 对象最好在里面设id,其次就用index,对象不要用其本身,由于引用地址,值相同也不同 -->
+
+    <!-- key设的原因:不设,第二次循环当从头到尾中的一个值不同,则这个值之后全修改,最后多的在再一个 -->
+    <!-- 设了,则那个不同的值会先放哪里,在尽可能不修改和第一次循环的值的情况下(这是在v-dom即是虚拟dom),把值展示在实际dom,这里用了算法 -->
+
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate'
+        }
+      },
+      methods: {
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

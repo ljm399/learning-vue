@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- computed计算属性和methods方法 -->
+
+  <!-- method和computed区别在于computed有计算机缓存,两者都是属性既对象,data是函数 -->
+  <!-- computed 和 methods 的区别：
+  1. computed 属性是基于它们的响应式依赖进行缓存的。只有在相关响应式依赖发生改变时，它们才会重新求值。
+  2. methods 方法每次触发重新渲染时，调用总会再次执行函数。
+  结论：对于任何复杂逻辑，都应当使用计算属性。
+  -->
+  
+  <!-- scope作用域 -->
+  <!-- computer定义的函数有其作用域(作用域是computed的),methods不能使用,相反同理,但watch监听函数例外 -->
+  <!-- 而this的对象跳过,可能因为对象的{}像箭头函数一样指向外面 -->
+  <div id="app">
+    <div>===== method=========</div>
+    <p>{{methodsName()}}</p>
+    <p>{{methodsName()}}</p>
+    <p>{{methodsName()}}</p>
+
+
+    <div>======computed--------</div>
+    <p>{{computedName}}</p>
+    <p>{{computedName}}</p>
+    <p>{{computedName}}</p>
+
+    <button @click="changeName">改变数据</button>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          firstName: 'slot',
+          lastName: 'oboe'
+        }
+      },
+      methods: {
+        methodsName: function () {
+          console.log("methods")
+          return this.firstName + ' ' + this.lastName
+        },
+        changeName: function () {
+          this.firstName = 'John'
+        }
+
+      },
+      computed: {
+
+        //计算属性默认对应的是个函数(这个函数式语法糖的写法)
+        computedName: function () {
+          console.log("computed")//只调用一次
+          return this.firstName + ' ' + this.lastName
+      }
+
+      }
+    })
+
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

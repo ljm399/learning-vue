@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-for渲染和arratCheckUpdata数组检查更新 -->
+  <div id="app">
+    <!-- 数组检查更新 -->
+    <template v-for="item in word">
+      {{ item }}
+    </template>
+    <div>
+      <button @click="updataArray">更新数组</button>
+    </div>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          word: ['c', 'b', 'a', 'd', 'e']
+        }
+      },
+      methods: {
+        updataArray: function () {
+        // 数组检查更新
+        //一,直接更换数组
+        // this.word = ['d', 'e', 'f']
+
+        //二,使用数组方法,修改数组的值,但不会创建新的数组
+        // this.word.splice(1, 2, 'd', 'e')
+        // this.word.push('0')//abcde0
+        // this.word.pop()//abcde
+        // this.word.sort()//排序
+        // this.word.reverse()//反转
+
+        //三,有些数组方法会直接创建新数组,而不修改原数组,这是不能侦听(即无法响应式(vue改变dom不改))
+        const newArr = this.word.map(item => item + 'new')
+        this.word = newArr
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

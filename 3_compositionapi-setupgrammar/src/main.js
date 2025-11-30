@@ -1,0 +1,18 @@
+import { createApp } from 'vue'
+// import App from './00-disadvantageOfoptionAPI/App.vue'
+// import App from './01-d6-defineData/App.vue'
+// import App from './02-readonly/App.vue'
+// import App from './03-reactive-otherJudgeAPI/App.vue'
+// import App from './04-toRefs-toRef/App.vue'
+// import App from './05-ref-othersAPI/App.vue'
+// import App from './06-computed-OfSetup/App.vue'
+// import App from './07-ref-importElementACpn/App.vue'
+// import App from './08-lifeCycle-OfSetup/App.vue'
+// import App from './09-provideAinject-ofSetup/App.vue'
+// import App from './10-watchAWatchEffect-monitoringDate/App.vue'
+// import App from './11-setup-practiceOfHooksFunction/App.vue'
+// import App from './12-script-setupGrammar/App.vue'
+import App from './13-Practice-Project/App.vue'
+import './data/assets/reset.css'
+
+createApp(App).mount('#app')

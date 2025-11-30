@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-bind绑定对象 -->
+  <div id="app">
+    <h2 :name="creek" :age="surrounding">{{ message }}</h2>
+
+    <h2 v-bind = "obj1">{{ message }}</h2>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          
+          surrounding:'环境',
+          creek: '溪流',
+          message: 'vibrate',
+          obj1:  { name: 'rail', age: 'slot插槽'}
+        }
+      },
+      methods: {
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

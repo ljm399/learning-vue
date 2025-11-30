@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- VueData的watch侦听属性 -->
+  <div id="app">
+    <button @click="changeMsg">{{ obj.age }}</button>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          obj: { name: 'justThinkMe', age: 22}
+        }
+      },
+      methods: {
+        changeMsg() {
+          this.obj.age = 23
+        }
+      },
+      watch: {
+        //1,默认情况下,监听不到,但template可以获取,因为template默认开启深度监听
+        // obj(newValue, oldValue) {
+        //   console.log("obj2被侦听",newValue, oldValue)
+        // },
+
+        //2,开启深度监听,handler是固定
+        obj: {
+          handler(newValue, oldValue) {
+            console.log("obj2被侦听", newValue, oldValue);
+          },
+          deep: true, // 开启深度监听,获取的是代理
+
+          //immediate开启立即侦听,即第一次渲染就执行一次handler
+          immediate: true
+        },
+
+        //3,也可以侦听对象里面的值,从而不用开启深度监听
+        // 'obj.age'(newValue, oldValue) {
+        //   console.log("obj.age被侦听", newValue, oldValue);
+        // }
+
+        //写法二
+        "obj.age": function (newValue, oldValue) { 
+          console.log("obj.age被侦听", newValue, oldValue);
+        }
+      }
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

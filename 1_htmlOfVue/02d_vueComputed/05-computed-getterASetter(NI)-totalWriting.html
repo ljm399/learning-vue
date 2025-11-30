@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- computed计算属性的getter和setter -->
+  <!-- computed不能传递参数,这是语法糖,除非是用setter -->
+  <div id="app">
+    <p>{{computedName}}</p>
+
+    <button @click="changeName">改变数据</button>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          firstName: 'slot',
+          lastName: 'oboe'
+        }
+      },
+      
+      computed: {
+
+      //   //语法糖的
+      //   computedName: function () {
+      //     console.log("computed")//只调用一次
+      //     return this.firstName + ' ' + this.lastName
+      // }
+
+      //完整写法:一般是有get则可以用语法糖,当用set则用完整写法(了解)
+      computedName: {
+        get: function () {
+          console.log("computed")
+          return this.firstName + ' ' + this.lastName
+        },
+        set: function (newValue) {
+          console.log("set")
+          const names = newValue.split(' ')
+          this.firstName = names[0]
+          this.lastName = names[1]
+        }
+      }
+    },
+      methods: {
+        changeName: function () {
+          //computedName也可以在这里用
+          this.computedName = 'micheal jsckson'
+        }
+
+      },
+    })
+
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-model双向绑定-select(单选和多选,这里返回的不是布尔类型所以受到value影响)-valueBind值绑定(处理服务器的数据) -->
+  <!-- 除checkbox的单选框不受到其他都会受到value影响 -->
+  <!-- 除selected,textasea这个v-model是绑定在selected外大部分都是绑定在input上 -->
+
+  <div id="app">
+    <!-- 1,单选 -->
+    <select v-model="fruits">
+      <option value="apple">苹果</option>
+      <option value="banana">香蕉</option>
+      <option value="orange">橙子</option>
+    </select>
+    <h3>{{ fruits }}</h3>
+
+    <!-- 2,多选 -->
+    <select v-model="fruits" multiple>
+      <option value="apple">苹果</option>
+      <option value="banana">香蕉</option>
+      <option value="orange">橙子</option>
+    </select>
+
+    <hr>
+    <!-- 3,valueBind值绑定-处理服务器的数据 -->
+    <!-- v-for在option里面 -->
+    <select v-model="fruits"  multiple>
+      <option :value="item.value" v-for="item in data" v-key="item.id">{{ item.name }}</option>
+    </select>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          fruits: '',//是不是[]没区别
+          data: [
+            { value: 'apple', id: 1 , name: '苹果' },
+            { value: 'banana', id: 2 , name: '香蕉' },
+            { value: 'orange', id: 3 , name: '橙子' }
+          ]
+        }
+      },
+      methods: {
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

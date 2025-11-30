@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- cdn引入,timer计时器 -->
+
+   <h3>一,1.1和vue相同的模板有国外广泛用的angluar和react(二者不是用js)</h3>
+   <!-- 1.2引入 -->
+   <div id="app"></div>
+  
+   <!-- cdn引入 -->
+   <!-- <script src="https://unpkg.com/vue@3.5.7/dist/vue.global.js"></script> -->
+   <!-- 本地引入 -->
+   <script src="../lib/vue.js"></script>
+   <script>
+    //no.1创建app
+     const app = Vue.createApp({
+      template: `
+      <h3>{{ name }}</h3>
+      <ul>
+        <li v-for="(item,index) in word" key="item">{{ item }}-{{ index }}</li>
+      </ul>
+      <h3>当前数字是:{{ count }}</h3>
+      <button v-on:click="increment">add</button>
+      <button v-on:click="decrement">sub</button>
+      `,
+
+      data() {
+        return {
+          name: "vibrate",
+          word: ['poster', 'navigate', 'lest', 'clash'],
+          count: 0
+        }
+      },
+      
+      //计时器
+      methods: {
+        //events是当事件变化才有,data是本来就有,故用this
+        increment() {
+          this.count++
+        },
+
+        decrement(){
+          this.count--
+        }
+      }
+      
+     })
+     //no.2挂载
+     app.mount('#app')
+   </script>
+</body>
+</html>

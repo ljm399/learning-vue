@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-for循环 -->
+  <div id="app">
+    <h2>{{ message }}</h2>
+
+    <!-- 一列表渲染,item,index,in/of效果相同 -->
+    <ul>
+      <li v-for="(item,index) in list">'item'{{ item }}-'index'{{ index }}</li>
+    </ul>
+
+    <!-- 二渲染渲染对象,item是值,index是索引,key是键 -->
+    <ul>
+      <li v-for="(item,key,index) of obj">item:{{ item }}--key:{{key}}==index:{{index}}</li>
+    </ul>
+
+    <!-- 三,遍历复杂数据 -->
+    <div v-for="(item,index) in words">
+      <!-- <h3 >{{ item.pole}}={{ item.snippets }}</h3>
+      <h4>{{ item.elbow }}=={{ item.alley }}</h4> -->
+      <!-- words有两个对象故循环两次,第一次循环的第一个对象由于没有elbow和alley故understandhuo显示不出来,第二次循环的第二个对象同理 -->
+      <!-- 改正一:数组的对象的键都是相同的!你这不同 -->
+
+      <!-- 改正二:改正 -->
+      <h3 v-if="index===0">{{ item.pole}}={{ item.snippets }}</h3>
+      <h4 v-else>{{ item.elbow }}=={{ item.alley }}</h4>
+    </div>
+
+    <!-- 四,遍历字符串(字符串是可遍历对象,以后什么东西可遍历与否问是遍历对象吗) -->
+    <div v-for="item in 'traversal'">
+      {{ item }}
+    </div>
+
+
+    <!-- 五,遍历数字 -->
+    <div v-for="item in 5">{{ item }}</div>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          list: [1, 2, 3],
+          obj: {
+            name: 'vibrate',
+            age: 18
+          },
+          words: [
+            {pole: '杆子', snippets: '片段'},
+            {elbow: '肘', alley: '巷道'}
+          ],
+          traversal: "traversal"
+        }
+      },
+      methods: {
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <!-- v-if条件渲染 -->
+    <!-- 就v-if,v-else,v-else-if,v-show -->
+
+    <!-- 有Object.keys/.values(obj)方法 -->
+    <button @click="objKey">objKey是什么</button>
+    <div v-if=" Object.keys(obj).length ">
+      <h2>{{ message }}</h2>
+      <h2>{{ obj.name }}</h2>
+      <h2>{{ obj.age }}</h2>
+    </div>
+    <div v-else>
+      <h2>obj里没有数据</h2>
+    </div>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          obj: {
+            name: 'snippet',
+            age: 18
+          }
+        }
+      },
+      methods: {
+        objKey: function () {
+          console.log(Object.keys(this.obj))//[name,age]
+          console.log(Object.values(this.obj))//[snippet,18]
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

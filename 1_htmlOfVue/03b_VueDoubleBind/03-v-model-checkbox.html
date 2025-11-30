@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-model双向绑定-checkbox(单选和多选)-真实开发(有数据库给)用valueBind值绑定-->
+  <div id="app">
+    <!-- 1,单选框 -->
+    <label for="agree">
+      <!-- v-model返回的是个布尔类型,所以无论message有无值,点后都是true/false -->
+      <!-- 单选框value不影响,返回的是布尔类型 -->
+      <input type="checkbox" id="agree" v-model="message">同意协议
+      <h3>{{ message }}</h3>
+    </label>
+
+    <!-- 2,多选框 -->
+    <!-- 多选value影响传回vue的值,你写的中文只是给用户看 -->
+    <!-- tip提示template:不能用template,除v-for和v-if -->
+    <!-- 两个input(无论在内外)使用for的值,可能会导致报错 -->
+    <div id="hobbies">
+      <h3>清选择你的爱好</h3>
+      <label for="sing1">
+        <input type="checkbox" id="sing1" v-model="hobbies" value="sing">唱
+      </label>
+      <label for="dance1">
+        <input type="checkbox" id="dance1" v-model="hobbies" value="dance">跳
+      </label>  
+      <label for="rap1">
+        <input type="checkbox" id="rap1" v-model="hobbies" value="rap">rap
+      </label>
+      <label for="basketball1">
+        <input type="checkbox" id="basketball1" v-model="hobbies" value="basketball">篮球
+      </label>
+      <h3>{{ hobbies }}</h3>
+    </div>
+
+    <hr>
+    <!-- 3,valueBind-真实开发,用于处理数据从服务器传过来的 -->
+    <!-- :for,使用要用到服务器的数据都要先绑定属性如:for,才能使用item.value这些 -->
+    <template v-for="item in data" v-key="item.value">
+      <label :for="item.name">
+        <input type="checkbox" :id="item.name" v-model="hobbies2" :value="item.name">{{ item.name }}
+      </label>
+    </template>
+    <h3>{{ hobbies2 }}</h3>
+
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          hobbies:[],//必须要加[],否则hobbies的值是undefined
+
+          // 真实开发,用于处理数据从服务器传过来的
+          data: [
+            { name: 'sing', value: 1 },
+            { name: 'dance', value: 2 },
+            { name: 'rap', value: 3 },
+            { name: 'basketball', value: 4 }
+          ],
+          hobbies2: []
+        }
+      },
+      methods: {
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

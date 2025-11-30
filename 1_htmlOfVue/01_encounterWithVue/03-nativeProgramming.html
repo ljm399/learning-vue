@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- nativ原生编程和declarative声明编程 -->
+
+  <!-- angluar,vue和react都是声明式编程:你只需要声明遍历和对应方法,然后在其框架上执行,不用操作dom(what to do),what大概是什么方法呢 -->
+  
+  <!-- 以下叫命名式编程:要操作dom(how to do) -->
+  <div>当前的数字:<span class="count"></span></div>
+  <button class="add">add</button>
+  <button class="sub">sub</button>
+
+  <script>
+    const add = document.querySelector('.add')
+    const sub = document.querySelector('.sub')
+    const count = document.querySelector('.count')
+
+    let num = 0
+    count.innerHTML = num
+
+    add.onclick = function () { 
+      num++
+      count.innerHTML = num
+    }
+    sub.onclick = function () { 
+      num--
+      count.innerHTML = num
+    }
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-model双向绑定-radio -->
+  <!-- 受到value影响 -->
+  <div id="app">
+    <div class="gender">
+      <label for="male">
+        <input type="radio" id="gender" name="gender" value="male" v-model="message">男
+      </label>
+      <label for="female">
+        <input type="radio" id="gender" name="gender" value="female" v-model="message">女
+      </label>
+    </div>
+    <h3>{{ message }}</h3>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: '男'
+        }
+      },
+      methods: {
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

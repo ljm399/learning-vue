@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    img{
+      width: 300px;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <!--  -->
+  <div id="app">
+    <!-- v-bind绑定基本绑定属性：src和href -->
+    
+    <img v-bind:src="showImg" alt="">
+    <div>
+      <button @click="changeImg">changeImg</button>
+    </div>
+    <a v-bind:href="href">百度一下</a>
+    <div></div>
+    <!-- 语法堂 -->
+    <a :href="bilibili">bilibili</a>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+            showImg: 'https://img1.baidu.com/it/u=687905698,132062380&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=750',
+            b: 'https://img1.baidu.com/it/u=2062152131,1998701002&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1421',
+            a: 'https://img1.baidu.com/it/u=687905698,132062380&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=750',
+            href: "baidu.com",
+            bilibili:'https://www.bilibili.com/'
+        }
+      },
+      methods: {
+        changeImg() {
+          this.showImg = this.showImg === this.a ? this.b : this.a
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-bind绑定属性名 -->
+  <div id="app">
+    <!-- 直接绑定属性名(bind property name) -->
+    <!-- 只要既加""又加'' -->
+    <h2 :[name]="'aaa'">{{ message }}</h2>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          name: 'appropriate'
+          // name : 'class'
+        }
+      },
+
+      methods: {
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

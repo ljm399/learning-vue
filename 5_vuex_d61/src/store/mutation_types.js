@@ -1,0 +1,1 @@
+export const CHANGE_AGE = 'change_age', EMIT_OBJ = 'emit_obj';

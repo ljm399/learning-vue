@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-model双向绑定的声明原理 -->
+  <!-- this和event的区别 -->
+  <div id="app">
+    <input type="text" v-model="message">
+
+    <!-- 声明式原理：不是底层，你这不知道:value(让dom知vue数据变化)怎么绑定vue,@imput同理(让vue知dom数据变化) -->
+    <input type="text" :value="message" @input="inputChange">
+    <h2>{{ message }}</h2>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate'
+        }
+      },
+      methods: {
+        inputChange() {
+          // 参数不用加event，因为vue会自动传入event
+          //event会有target（事件）
+          this.message = event.target.value
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

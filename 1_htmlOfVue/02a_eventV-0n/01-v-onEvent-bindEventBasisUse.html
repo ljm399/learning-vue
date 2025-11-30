@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: #080;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- 1,v-on绑定:绑定事件的基本使用 -->
+    <div v-on:click="divClick" class="box">1,privilege</div>
+
+    <!-- 2,语法糖 -->
+    <div @click="divClick" class="box">2,mule</div>
+    
+    <!-- 3,表达式(但不推荐),不符合声明编程思想,不易管理 -->
+    <h2>{{ count }}</h2>
+    <button @click="count++">addCount</button>
+    <!-- 3.1赋值 -->
+    <!-- <button @click="count = 3"></button> -->
+
+    <!-- 4,绑定其他方法 -->
+    <div class="box" @mousemove="divMousemove">4,cornerstone</div>
+
+    <!-- 5,元素绑定多种事件:推荐第一种 -->
+    <div class="box" @click="divClick" @mousemove="divMousemove">5.1,stadium</div>
+    <div class="box" @="{click: divClick, mousemove: divMousemove}">5.2,scale</div>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          count: 0
+        }
+      },
+      methods: {
+        divClick: function () { 
+          console.log('divClick')
+        },
+        divMousemove: function () { 
+          console.log('divMousemove')
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

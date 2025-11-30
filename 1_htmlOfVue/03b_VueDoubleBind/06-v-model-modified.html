@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-modelModefied双向绑定的修饰符 -->
+  <div id="app">
+    <!-- 1,lazy不是:是. -->
+    <!-- 把v-on绑定的事件改为了change事件 -->
+    <input type="text" v-model.lazy="message">
+    <h3>{{ message }}</h3>
+
+
+    <!-- 2,trim:删除多余空格 -->
+    <!-- 由于html解析默认把空格合并,故要用到watch监听(事件监听)属性 -->
+
+    <input type="text" v-model.trim="trimMsg">
+    <h3>{{ trimMsg }}</h3>
+
+
+    <!-- 3,number: -->
+    <!-- 默认使你再次输入的值为string -->
+    <input type="text" v-model="num">
+    <h3>{{ num }}-{{ typeof num }}</h3>
+
+    <!-- 方法一:加上number强制为number类型 -->
+    <input type="text" v-model.number="num">
+    <h3>{{ num }}-{{ typeof num }}</h3>
+
+    <!-- 方法二 ,type为number-->
+    <!-- 只能给你输入数字,其他不行 -->
+    <input type="number" v-model="num">
+    <h3>{{ num }}-{{ typeof num }}</h3>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          trimMsg: '  vibrate  ',
+          num: 123
+        }
+      },
+      methods: {
+      },
+      watch: {
+        trimMsg: function (val) {
+          console.log('trimMsg', val)
+
+          // 也可以在这里调用trim方法,但推荐trim修饰因为dom当输入空格时,数据相同就不会触发watch事件,从而优化性能
+          // console.log('trimMsg', val.trim())
+
+      }}
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

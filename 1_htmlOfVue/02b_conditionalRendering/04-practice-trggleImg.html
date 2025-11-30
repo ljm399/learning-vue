@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    img{
+      width: 300px;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <!-- trggle开关思想 -->
+  <!-- 用v-if实现点击图片来切换有无 -->
+  <div id="app">
+    <div>
+      <button @click="changeImg">改变图片</button>
+    </div>
+    <template v-if="isShow">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBx3CD2JrJ-CWLAPzKcabyExOZJ2s5NF5eGw&s" alt="">
+    </template>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          isShow: true,
+        }
+      },
+      methods: {
+        changeImg() {
+          this.isShow = !this.isShow
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

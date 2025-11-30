@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-if渲染和v-model双向绑定 -->
+  <div id="app">
+    <!--扩展一 v-model -->
+    <!-- <input v-model="score"> -->
+
+    <!-- 原理:input有这个事件 -->
+    <!-- :value是dom绑定data的数据即vue指向dom,而@input是把dom指向vue从而实现双向绑定 -->
+    <input  v-on:input="inputChange" :value="score">
+    <h2 v-if="score > 90">优秀</h2>
+    <h2 v-else-if="score >80">良好</h2>
+    <h2 v-else-if="score >60">及格</h2>
+    <h2 v-else>滚</h2>
+
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          score: 90
+        }
+      },
+      methods: {
+        inputChange: function (event) {
+          this.score = event.target.value
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

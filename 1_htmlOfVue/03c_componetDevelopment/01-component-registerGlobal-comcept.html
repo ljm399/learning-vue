@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .products{
+      background-color: #080;
+    }
+  </style>
+</head>
+<body>
+    <!-- Component组件-registerGlobal注册全局组件 -->
+
+    <!-- 组件开发-把一个大问题拆分小问题 -->
+    <!-- 根组件-几个大组件-再拆分几个小组件 -->
+
+    <!-- id-app不能少 -->
+  <div id="app">
+    <product-item></product-item>
+  </div>
+
+  <template id="item">
+       <div class="products">
+           <h2>----start-----</h2>
+           <h2>words: architecture integer raw</h2>
+           <h2>----end-------</h2>
+       </div>
+  </template>
+
+  <script src="../lib/vue.js"></script>
+  <script>
+    //1,组件:App组件(根组件)
+    const App = {}
+
+
+    //2, 创建 app
+    const app = Vue.createApp(App)
+
+
+    //3,方法一: 注册一个全局组件
+    // app.component("product-item", {
+    //   template: `
+    //   <div class="products">
+    //     <h2>----start-----</h2>
+    //     <h2>words: architecture integer raw</h2>
+    //     <h2>----end-------</h2>
+    //   </div>
+    //   `
+    // })
+
+    //3.2,方法二:
+    app.component("product-item", {
+      template: "#item"
+    })
+
+
+    //4,挂载app
+    app.mount('#app')
+  </script>
+</body>
+</html>

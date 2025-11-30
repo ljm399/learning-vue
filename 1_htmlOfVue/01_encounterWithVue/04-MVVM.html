@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- Mvvm架构 -->
+  <h3>
+    mvvm-model(script),view(tample),viewmodel(核心,作用于view和model之间),mvc-model,view,control(与viewmodel作用一样)
+  </h3>
+
+  <div id="app">
+    <!-- vue框架通过proxy(代理)或其他方法来监听model的data变化,当变化是会被Vue的响应式系统劫持 -->
+    <!-- 响应式:model的数据变化,view也随之变化,不需要多余的dom操作 -->
+    <h2>{{ message }}</h2>
+    <button @click="changeMsg">changeVibrate</button>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    const app = Vue.createApp({
+
+      //vue2data可以是对象,Vue3只能是函数
+      data: function () {
+        return {
+          message: 'vibrate'
+        }
+      },
+      methods: {
+        changeMsg: function () {
+          this.message = 'cucumber'
+        }
+      }
+
+    })
+    app.mount('#app')
+  </script>
+</body>
+</html>

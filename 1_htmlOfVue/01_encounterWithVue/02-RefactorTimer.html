@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- timer计时器 -->
+  <!-- 把tample写在script外面,要是里面有,则外面的会被覆盖 -->
+
+
+  <!-- Timer -->
+  <div id="app">
+    <h1>当前数字是: {{ count }}</h1>
+    <button @click="count++">add</button>
+    <button @click="count--">sub</button>
+  </div>
+  <script src="../lib/vue.js"></script>
+  <script>
+   //no.1创建app
+    const app = Vue.createApp({
+     
+    //第一种写法
+    //  data() {
+    //    return {
+    //      count: 0
+    //    }
+    //  }
+    
+    //第二种
+    data: function() {
+      return {
+        count: 0
+      }
+    }
+    
+    })
+    //no.2挂载
+    app.mount('#app')
+    </script>
+</body>
+</html>

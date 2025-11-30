@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- mustache插值语法 -->
+  <!-- 负责数据处理:插值语法 -->
+  <div id="app">
+    <!-- 1,拼接 -->
+    <!-- <h2>{{ firstName }} + {{ lastName }}</h2>不是这样 -->
+    <h2>{{ firstName + lastName }}</h2>
+    <h2>{{ firstName + '' + lastName }}</h2>
+
+    <!-- 2,三元 -->
+    <input type="text" v-model="score">
+    <h2>{{ score >= 60 ? '及格': '滚' }}</h2>
+
+    <!-- 3,表达式:反转拼接显示单词,split(" ")的""之间要加空格在哪以空格展示到数组里面 -->
+    <!-- 同理:.join(" ")的""要加空格才能展示 -->
+    <h2>{{ sentence.split(" ").reverse().join("") }}</h2>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          firstName: 'vibrate',
+          lastName: "mustache" ,
+          score:90,
+          sentence: 'Lebanon is boming by isreal musscrace'
+        }
+      },
+      methods: {
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

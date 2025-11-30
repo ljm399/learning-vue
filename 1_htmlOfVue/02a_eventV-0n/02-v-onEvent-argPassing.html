@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-on绑定的参数传递 -->
+  <div id="app">
+    <!-- 默认传递:event-->
+    <button @click="btnClick">{{ message }}</button>
+
+    <!-- 参数传递,这是属性要加(),不能传递自变量否则为undefined -->
+    <button @click="btnClick2('rot', age)">rot</button>
+
+    <!-- 参数传递同时加上evnt,event前要加$否则undefined -->
+    <button @click="btnClick3('rat', age, $event)">stale</button>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          age: 18
+        }
+      },
+      methods: {
+        btnClick() {
+          console.log('click1',event)//默认都是event无论(有无event),但推荐加,阅读性强
+        },
+
+        btnClick2(name, age) { 
+          console.log('click2',name, age)
+        },
+
+        btnClick3(name, age, event) {
+          console.log('click3', name, age, event)
+
+      }}
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

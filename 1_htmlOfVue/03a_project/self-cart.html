@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table{
+      border-collapse: collapse;
+      text-align: center;
+    }
+    thead td{
+      background-color: #ccc;
+    }
+    td{
+      padding: 10px 30px;
+      border: #000 1px solid;
+    }
+    .active{
+      background-color: #080;
+    }
+  </style>
+</head>
+<body>
+  <!-- cart购物车案例 -->
+  <!-- 外部数据引入data方法 -->
+  <!-- this.cartData.price不行,数组没有cartData属性,this.cartData[0].price才行 -->
+  <!-- xx + ' ' + xx 是为了空格 -->
+  <!-- computed定义的函数method里面不能使用,作用域影响 -->
+
+
+
+  <div id="app">
+    <table>
+      <thead>
+        <tr>
+          <td></td>
+          <td>书籍名称</td>
+          <td>出版日期</td>
+          <td>价格</td>
+          <td>购物数量</td>
+          <td>操作</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr :class="{'active': currentIndex === index}" @click="triggle(index)" v-for="(item,index) of cartData">
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.date }}</td>
+          <td>{{ formatPrice(item.price) }}</td>
+          <td>
+            <button v-bind:disabled="item.purchase < 2 " @click="btnSub(index)">-</button>
+            {{ item.purchase }}
+            <button @click="btnAdd(index)">+</button>
+          </td>
+          <td>
+            <button @click="removeTr(index)">{{ item.status }}</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>总价: {{ totalPrice }} </h2>
+
+    <button @click="printData">print</button>
+  </div>
+  <script src="./data/cartData.js"></script>
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          //引入data方法一
+          // cartData
+
+          //引入data方法二
+          cartData: cartData,
+          Isactive: true,
+          currentIndex: 0
+        }
+      },
+      methods: {
+        printData() {
+          console.log(this.cartData)
+          console.log(this.cartData)//undefined
+        },
+
+        //抽取思想
+        formatPrice(price) {
+          return "¥"+ ' ' + price
+        },
+
+
+        //响应式的生动表现,时刻监听dom变化,数据改变dom就变,而不需要其他操作
+        btnSub(index) {
+          this.cartData[index].purchase--
+        },
+        btnAdd(index) {
+          this.cartData[index].purchase++
+        },
+
+        //删除tr
+        removeTr(item) {
+          this.cartData.splice(item, 1)
+        },
+
+        //点击变色
+        triggle(index) {
+          this.currentIndex = index
+        }
+      },
+
+      computed: {
+        totalPrice() {
+
+          //方法一:计算总值
+          let total = 0;
+          for(let i = 0; i < this.cartData.length; i++) {
+             total += this.cartData[i].price * this.cartData[i].purchase
+          }
+          // return formatPrice(total)//报错,formatPrice是methods定义的有其作用域,使用computed这个作用域不能使用
+
+          //方法二
+
+          return "¥"+ ' ' + total
+
+        }    
+      }
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

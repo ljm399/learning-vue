@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .products{
+      background-color: #080;
+    }
+  </style>
+</head>
+<body>
+    <!-- Component组件-registerGlobal注册其他全局组件和组件命名 -->
+    <!-- 组件命名:productItem(驼峰)或"product-item"(加引号) -->
+    <!-- 组件问题:使用ProductItem再html中可能会影响以外他不区分大小写,但在template不会影响 -->
+    <!-- app.componet()第一个参数是名字 -->
+
+  <div id="app">
+    <product-item></product-item>
+    <word-mean></word-mean>
+    <!-- <WordMean></WordMean>报错,html不识别,到.vue里才行 -->
+  </div>
+
+  <template id="word">
+    <div>-----word start=====</div>
+    <h3>{{ word }}</h3>
+    <button @click="changeWord">翻译</button>
+    <div>------end---------</div>
+  </template>
+
+  <template id="item">
+       <div class="products">
+           <h2>----start-----</h2>
+           <h2>words: architecture integer raw</h2>
+           <h2>----end-------</h2>
+       </div>
+  </template>
+
+  <script src="../lib/vue.js"></script>
+  <script>
+    //1,组件:App组件(根组件)
+    const App = {}
+
+
+    //2, 创建 app
+    const app = Vue.createApp(App)
+
+
+    //3,注册其他全局属性(NI)
+    app.component("WordMean",{
+      template: "#word",
+      data() {
+        return{
+        word: "architecture"
+        }
+      },
+      methods:{
+        changeWord() {
+          this.word = "建筑学"
+        }
+      }
+    })
+
+    app.component("product-item", {
+      template: "#item"
+    })
+
+    //4,挂载app
+    app.mount('#app')
+  </script>
+</body>
+</html>

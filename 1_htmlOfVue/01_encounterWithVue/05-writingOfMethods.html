@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- method方法:函数的写法 -->
+  <div id="app">
+    <h2>{{ message }}</h2>
+    <button @click="changeMsg">changeMsg</button>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate'
+        }
+      },
+      methods: {
+        //函数写法一
+        // changeMsg: function () {
+        //   this.message = 'vibrate2'
+        // }
+
+        //函数写法二
+        // changeMsg() {
+        //   this.message = 'vibrate2'
+        // }
+
+        //不要用箭头函数写法(因为不能用this,故不要用)
+        //箭头函数没有自己的`this`,它的`this`会捕获其所在上下文的`this`值。
+        //在这里,`methods`对象是`createApp`的参数,其上下文是全局作用域(window),所以箭头函数内的`this`指向`window`
+        //而Vue组件的方法需要`this`指向组件实例来访问`data`和`methods`,所以使用箭头函数会导致找不到`this.message`
+        //所以箭头函数写法不能用
+        changeMsg: () => {
+          this.message = 'vibrate2'
+          console.log(this)//window
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

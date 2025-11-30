@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- v-bind绑定样式 -->
+  <div id="app">
+    <!-- 绑定style属性 -->
+    <!-- 普通style -->
+    <h5 style="color: #080;">bottle</h5>
+
+    <!-- style的值来着data -->
+    <!-- 1.1动态绑定styel,后面跟上对象类型,font-size写法一:加引号'font-size'(双引号里面不能有双引号),写法二驼峰:fontSize -->
+    <!-- fontsize的值要加+px -->
+    <h2 v-bind:style="{ color: color, fontSize: fontSize + 'px' }">{{ message }}</h2>
+
+    <!-- 1.2,绑定属性,这个属性是对象 -->
+    <h2 v-bind:style="obj">hole</h2>
+
+    <!-- 1.3,style的数组语法 -->
+    <h2 :style="[obj, {backgroundColor: 'purple'}]">pole杆</h2>
+  </div>
+</div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          color: '#f08',
+          fontSize: 30,
+          obj: { color: 'green', fontSize:  '30px' }//不能用变量名只能确定数值
+        }
+      },
+      methods: {
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

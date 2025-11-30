@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .products{
+      background-color: #080;
+    }
+  </style>
+</head>
+<body>
+    <!-- component组件-localComponent局部组件 因为全局组件下载会把所有全局组件都下,增加包容量 -->
+
+  <div id="app">
+    <product-item></product-item>
+    <hr>
+    <word></word>
+    <!-- <WordMean></WordMean>报错,html不识别,到.vue里才行 -->
+  </div>
+
+  <template id="word">
+    <div>----------i am word start=====</div>
+    <h3>{{ word }}</h3>
+    <button @click="changeWord">翻译</button>
+    <!-- <product-item></product-item> -->
+    <div>------------word end---------</div>
+  </template>
+
+  
+
+  <script src="../lib/vue.js"></script>
+  <script>
+
+
+    const word = {
+      template: "#word",
+      data() {
+        return{
+        word: "architecture"
+        }
+      },
+      methods:{
+        changeWord() {
+          this.word = "建筑学"
+        }
+      },
+      //局部组件带其他组件,这里不行
+      // components:{
+      //   ProductItem
+      // }
+    }
+
+    
+    const app = Vue.createApp({
+      //对象,组件名是键,内容是值
+      components: {
+        word,
+        ProductItem: {
+          template:`
+          <div class="products">
+               <h2>----i am product-item-----</h2>
+               <h2>words: architecture integer raw</h2>
+               <word></word>
+               <h2>----product item end-------</h2>
+           </div>
+          `,
+          //局部注册其他组件
+          components:{
+            word
+          }
+        }
+      }
+    })
+    //4,挂载app
+    app.mount('#app')
+  </script>
+</body>
+</html>

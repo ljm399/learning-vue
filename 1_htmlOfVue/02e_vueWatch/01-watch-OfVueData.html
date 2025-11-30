@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- VueData的watch侦听属性 -->
+  <div id="app">
+    <button @click="changeMsg">{{ message }}</button>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate',
+          obj: { name: 'justThinkMe', age: 22},
+          obj2: { name: 'justThinkMe', age: 22}
+        }
+      },
+      methods: {
+        changeMsg() {
+          this.message = 'quiet',
+          this.obj = { name: 'justThinkMe'},
+          this.obj2.age = 23
+        }
+      },
+      watch: {
+        //1,默认有两个参数,先是新值,然后是旧值
+        message(newValue, oldValue) {
+          console.log("message被侦听",newValue, oldValue)
+        },
+
+        //2,如果监听的是对象,则获得的是代理对象(有proxy)
+        obj(newValue, oldValue) { 
+          console.log("obj被侦听",newValue, oldValue)
+
+          //3,获得代理对象的原始值,而不是原始对象的原始值
+          console.log("原始值",Vue.toRaw(newValue), Vue.toRaw(oldValue))
+        },
+
+        //4,pro:原始值不可以监听只修改属性的对像即不可以深度监听
+        obj2(newValue, oldValue) {
+          
+          // console.log("obj2被侦听",newValue, oldValue)//获取不到
+
+          console.log("原始值",Vue.toRaw(newValue), Vue.toRaw(oldValue))//获取不到
+        }
+
+
+      }
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

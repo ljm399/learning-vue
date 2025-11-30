@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- codeSnippet代码片段 -->
+
+  <!-- option还有很多属性如props,watch之后会学 -->
+  <!-- 到snippet-generator.app网站 -->
+   <!--文件 -> 首选 -> 设置 -> 用户代码片段 -> 选择html.json -->
+  <div id="app">
+    <h2>{{ message }}</h2>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          message: 'vibrate'
+        }
+      },
+      methods: {
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

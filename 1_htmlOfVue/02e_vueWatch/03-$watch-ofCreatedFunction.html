@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- VueData的watch侦听属性和生命周期的created属性 -->
+  <div id="app">
+    <button @click="changeMsg">{{ obj.age }}</button>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          obj: { name: 'justThinkMe', age: 22}
+        }
+      },
+      methods: {
+        changeMsg() {
+          this.obj.age = 23
+        }
+      },
+      
+      //生命周期回调函数(之后会学),使得默认函数自动执行
+      //在该类函数会进行网络请求
+      created() { 
+        //ajax/fetch/axios网络请求(先了解)
+
+        //自动执行
+        console.log('created')
+
+        //侦听属性(三个参数,第一个参数是监听的对象,第二个参数是回调函数,第三个参数是配置对象)
+        this.$watch('obj',(newVal,oldVal) => {
+          console.log('watch',newVal,oldVal)
+        },{deep:true})
+      }
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>

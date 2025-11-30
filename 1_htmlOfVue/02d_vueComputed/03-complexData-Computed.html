@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- computed计算属性 -->
+
+  <!-- 负责数据处理: computed -->
+  <!-- 官方说:复杂的data交给computed -->
+  
+  <!-- 不用插值语法 -->
+  <!-- 1,因为其本身为简单运算而设计,2,大量重复代码不利于维护(抽取思想),3,模板过重 -->
+
+  <!-- 不用method,因为利用了抽取思想,可以把逻辑抽取出去,便于维护 -->
+  <!-- 但这个过程全是函数调用,影响直观 -->
+
+
+
+  <div id="app">
+    <!-- 1,拼接 -->
+    <!-- <h2>{{ firstName }} + {{ lastName }}</h2>不是这样 -->
+    <h2>{{ formatData }}</h2>
+
+    <!-- 2,三元 -->
+    <input type="text" v-model="score">
+    <h2>{{ judgeScore }}</h2>
+
+    <!-- 3,表达式:反转拼接显示单词,split(" ")的""之间要加空格在哪以空格展示到数组里面 -->
+    <!-- 同理:.join(" ")的""要加空格才能展示 -->
+    <h2>{{ arrReserve }}</h2>
+  </div>
+  
+  <script src="../lib/vue.js"></script>
+  <script>
+    // 创建 Vue 应用
+    const app = Vue.createApp({
+
+      data: function () {
+        return {
+          firstName: 'vibrate',
+          lastName: "mustache" ,
+          score:90,
+          sentence: 'Lebanon is boming by isreal musscrace'
+        }
+      },
+      methods: {
+      },
+      computed:{
+        formatData:function(){
+          return this.firstName + " " + this.lastName;
+        },
+        judgeScore: function () {
+          return this.score > 60 ? "及格" : "fail";
+        },
+        arrReserve: function () {
+          return this.sentence.split(" ").reverse().join(" ");
+        }
+      }
+
+    })
+    // 挂载应用
+    app.mount('#app')
+  </script>
+</body>
+</html>
