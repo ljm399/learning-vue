@@ -248,6 +248,8 @@ methods: {
 ### 2.4. v-model修饰符
 
 - lazy
+  - 等input失去焦点才执行
+
 - number
 - trim
 
@@ -325,6 +327,241 @@ app.component("product-item", {
   template: "#item"
 })
 ```
+
+### vue2和vue3里面的main.js不一样
+
+**不一样，区别非常大！**
+
+这是一个非常经典的误区。虽然它们都是入口文件，作用都是“启动应用”，但 **代码写法** 和 **底层逻辑** 发生了彻底的改变。
+
+一句话总结核心区别：
+*   **Vue 2** 是 **“修改全局对象”**（所有 Vue 实例共用一套配置）。
+*   **Vue 3** 是 **“创建独立实例”**（每个 App 都有自己的配置，互不干扰）。
+
+我把两者的代码放在一起对比，你一眼就能看出不同。
+
+---
+
+####  代码直观对比
+
+#### 1. Vue 2 的 `main.js` (旧时代)
+
+我们在 Vue 2 里，是直接导入一个叫 `Vue` 的大对象（构造函数），然后往它身上挂东西。
+
+```javascript
+// --- Vue 2 ---
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+
+// 1. 全局注册插件 (直接修改了 Vue 这个大对象)
+Vue.use(router) 
+Vue.prototype.$http = axios // 挂载全局属性
+
+// 2. 实例化
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app') // 3. 挂载到 HTML
+```
+
+#### 2. Vue 3 的 `main.js` (新时代)
+
+Vue 3 引入了 **工厂模式**。不再有全局的 `Vue` 对象了，取而代之的是 `createApp` 函数。
+
+```javascript
+// --- Vue 3 ---
+import { createApp } from 'vue' // 注意：是按需引入，不是 import Vue
+import App from './App.vue'
+import router from './router'
+import store from './store'
+
+// 1. 创建应用实例 (app)
+const app = createApp(App)
+
+// 2. 注册插件 (挂载在 app 实例上，而不是全局)
+app.use(router)
+app.use(store)
+
+// 3. 挂载全局属性 (变了！不再是 prototype)
+app.config.globalProperties.$http = axios 
+
+// 4. 挂载到 HTML
+app.mount('#app') // 注意：没有 $ 符号了
+```
+
+---
+
+####  核心区别解析 (面试必考)
+
+如果你面试时被问到这个，请回答以下 3 点：
+
+#### 1. 创建方式变了 (`new Vue` vs `createApp`)
+*   **Vue 2**: 使用 `new Vue()`。这意味着 Vue 是一个**类**。
+*   **Vue 3**: 使用 `createApp()`。这意味着 Vue 变成了一个**函数式**的工厂。
+*   **为什么改？** 为了支持 **Tree Shaking**（摇树优化）。Vue 3 没用到的功能打包时会自动删掉，体积更小。
+
+#### 2. 全局 API 变了 (避免全局污染)
+*   **Vue 2**: `Vue.component`, `Vue.use`, `Vue.directive`。
+    *   *缺点：* 如果你在页面上同时启动了两个 Vue app，你给 App A 注册的组件，App B 居然也能用！这叫**全局污染**。
+*   **Vue 3**: `app.component`, `app.use`, `app.directive`。
+    *   *优点：* 所有的配置都只属于 `app` 这个变量。如果你再 `createApp` 一个 `app2`，它俩是完全隔离的。
+
+#### 3. 挂载方法的微调 (`$mount` vs `mount`)
+*   **Vue 2**: `.$mount('#app')`
+*   **Vue 3**: `.mount('#app')` (去掉了 `$`)
+
+#### 总结
+
+面试时不用背代码，记住这句话：
+**“Vue 3 去掉了全局的 Vue 构造函数，改为使用 `createApp` 创建独立的 App 实例。这样做是为了避免全局污染，并且对 Tree Shaking 更友好。”**
+
+#### 原型链和作用域去理解
+
+"从**原型链**的角度来看，**Vue 2** 的设计是基于**构造函数**的。所有的全局配置（如插件、全局属性）都直接修改了 Vue.prototype。由于 JS 原型链的特性，所有实例共享同一个原型，这就导致了无法在同一页面隔离多个应用，产生**全局污染**。
+
+而 **Vue 3** 采用了**工厂模式**（createApp）。它不再修改公共的原型，而是创建独立的 app 对象，将配置保存在这个**对象实例的内部作用域**中。这样，不同实例的配置完全解耦。
+
+
+
+### 其他问题
+
+#### 1. Vue 2 (对象挂载 -> 难以消除)
+
+在 Vue 2 里，所有 API（如 nextTick, set, delete）都作为属性挂在 Vue 这个大对象上。
+
+```
+import Vue from 'vue';
+Vue.nextTick(() => {});
+```
+
+**Webpack 很难优化：** 即使你只用了 nextTick，但因为你引入了整个 Vue 对象，打包工具无法确定 Vue 上的其他属性（如 Vue.set）将来会不会被用到（因为 JS 是动态语言，对象属性太容易被动态访问了）。为了安全，只能把整个 Vue 对象全打进去。
+
+#### 2. Vue 3 (函数导出 -> 精准消除)
+
+在 Vue 3 里，API 变成了独立的 **导出函数 (Export Functions)**。
+
+```
+import { nextTick } from 'vue'; // 按需引入
+nextTick(() => {});
+```
+
+**Webpack 很容易优化：** 这就是纯粹的 **ES Module 静态分析**。打包工具一看：你只 import 了 nextTick，没 import reactive？好，那我直接把 reactive 的代码扔掉。
+
+- 从**模块作用域**的角度看，Vue 2 将 API 挂载在 Vue 对象上，阻碍了静态分析；Vue 3 改为独立的**函数导出**，配合 ES Module，让打包工具能精准识别未使用的代码，从而实现了 **Tree Shaking**。"
+
+
+
+### Vue 2 的源码逻辑其实是这样的（ES5 写法）：
+
+```javascript
+// 1. 定义构造函数
+function Vue() {
+  // 这里面啥都没写，或者只做初始化的事
+}
+
+// 2. 【关键】直接在 Vue 这个函数对象上挂载属性
+// 这叫“静态方法”
+Vue.nextTick = function() {
+  console.log('我是静态方法，不用 new 就能用');
+};
+
+// --- 怎么用？---
+
+// ✅ 直接通过类名调用
+Vue.nextTick(); 
+
+// ❌ 实例上反倒没有（除非也在 prototype 上挂了一份）
+const app = new Vue();
+app.nextTick(); // 报错：app.nextTick is not a function
+```
+
+- 而不是 ,这是一种是一种**极其浪费内存**的写法
+
+  ```javascript
+  function Vue() {
+    // 这里的 this 指向的是 new 出来的那个对象 (app)
+    this.nextTick = function() {
+      console.log('我是实例方法');
+    }
+  }
+  
+  const app = new Vue();
+  
+  // ✅ 实例上有
+  app.nextTick(); 
+  
+  // ❌ 构造函数（类）本身没有！
+  Vue.nextTick(); // 报错：Vue.nextTick is not a function
+  ```
+
+#### 在 Vue 3 中，nextTick 既不在 app 实例上，也不在构造函数上。它变成了一个**独立的函数**。
+
+- 这样导入 export {想要那个方法直接导入} from “vue”
+
+- 比如：这就叫“函数式编程”的味道：
+
+  ```javascript
+  vue文件中
+  function nextTick（）{ xxxxx}
+  其他方法
+  
+  -----------------------------
+  import { nextTick } from 'vue'; 
+  
+  // 2. 直接调用函数
+  nextTick(() => {
+    console.log('DOM 更新了');
+  });
+  ```
+
+  
+
+
+
+### vue2和vue3注册全局组件
+
+```javascript
+vue2
+import Vue from 'vue'
+import App from './App.vue'
+// 1. 引入组件
+import MyHeader from './components/MyHeader.vue'
+
+// 2. 全局注册
+// 语法：Vue.component('组件名', 组件对象)
+Vue.component('MyHeader', MyHeader)
+
+new Vue({
+  render: h => h(App)
+}).$mount('#app')
+
+
+---------------------------
+vue3
+import { createApp } from 'vue'
+import App from './App.vue'
+// 1. 引入组件
+import MyHeader from './components/MyHeader.vue'
+
+// 2. 创建应用实例
+const app = createApp(App)
+
+// 3. 全局注册 (必须在 mount 之前)
+// 语法：app.component('组件名', 组件对象)
+app.component('MyHeader', MyHeader)
+
+// 支持链式调用 (可以一直点下去)
+// app.component('CompA', A).component('CompB', B)
+
+// 4. 挂载
+app.mount('#app')
+
+```
+
+
 
 
 
@@ -450,7 +687,7 @@ browserlistic文件:浏览器兼容配置文件(如>1%的浏览器才行)
 - App.vue
 - ProductItem.vue
 
-```
+```javascript
 import A  from './Components/import-Global'
 import App from './App.vue'
 

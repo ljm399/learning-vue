@@ -151,6 +151,8 @@ btnClick3(name, age, event) {
 
 ### 1.2.3. v-show
 
+- 性能优化只是其本身，要是其改变影响到了其他组件的移动一样会引起回流
+
 ```javascript
 <!-- v-show不能用template -->
 <!-- <template v-show="isShow">
@@ -200,7 +202,7 @@ methods: {
 
 - (item, index) in 数组
 
-- (item,key, index) of 数组
+- (item,key, index) of 对象
 
 - 遍历复制数据(一个数组里面多个数组)
 

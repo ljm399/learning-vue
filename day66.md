@@ -671,6 +671,8 @@ const sectionRefs = ref({})
 const names = computed(() => {
   return Object.keys(sectionRefs.value) // 返回一个数组，keys而不是key
 })
+
+------ 这段代码解释：每个组件挂载时，Vue 会自动调用你写的 ref 函数，并把组件实例传给它；组件卸载时，Vue 会传 null。即--------------getSectionRefs(Infos组件实例)
 const getSectionRefs = (ref) => {
   // if判断为了防止组件销毁时，ref为null，然后getAttribute报错
   if(ref) {
@@ -679,6 +681,9 @@ const getSectionRefs = (ref) => {
     sectionRefs.value[name] = ref
   }
 }
+
+
+
 const outItemClick = (index) => {
   const name = names.value[index]
   const swiperElement = sectionRefs.value[name].$el

@@ -216,7 +216,7 @@
         // 注意第一个参数路径要改
     }
     ```
-    
+  
   - 要是上面方法不行
 
     ```javascript
@@ -229,24 +229,58 @@
       }, -- 本地文件改为/src/... 这样的绝对路径
     ```
 
-    ##### 1. /src/assets/img/tabbar/tab_home.png ✅ 可以
+    - 下面图片引入问题，在真实开放没有，数据库给的是网络地址
 
+    ##### 1. /src/assets/img/tabbar/tab_home.png ✅ 可以
+  
     - 这是**绝对路径**，从项目根目录开始
     - Vite 开发服务器会直接处理以 `/src/` 开头的静态资源路径
     - 浏览器会发起 `http://localhost:5173/src/assets/img/tabbar/tab_home.png` 请求
+    - 解释
+  
+      - `/src/...` 在 Vite 中属于 **根路径**（absolute path），Vite 会自动帮你处理成一个真实的 URL。
+  
+      - ###### Vite 会处理为：浏览器请求：http://localhost:5173/src/assets/img/tabbar/tab_home.png
 
+      - 这是一种 **开发时的特殊能力**。
+
+        ⚠ 这在生产环境 *不一定安全*，因为构建后 `/src` 会被打包，不是原路径了，但开发阶段是可行的
+  
+  
     ###### 2. `../../assets/img/tabbar/tab_favor.png` ❌ 不工作
-
+  
     - 这是**相对路径**，相对于当前 HTML 页面的位置
     - 在 SPA 应用中，页面 URL 可能是 `/home`、`/favor` 等路由路径
     - 浏览器会基于当前路由计算相对路径，导致路径错误
     - 例如在 `/favor` 路由下，`../../` 会解析为根目录的上两级，路径就错了
-
+  
     ##### 3. `@/assets/img/tabbar/tab_order.png` ❌ 不工作
-
+  
     - `@` 是 **Vite 的别名**，只在 JavaScript/TypeScript 模块导入时有效
     - 在 HTML 模板的字符串中，`@` 不会被 Vite 处理，浏览器不认识这个符号
     - 浏览器会尝试请求 `http://localhost:5173/@/assets/img/...`，这是无效路径
+      - 浏览器根本不认识 `@`，它只认识 URL 语法。
+  
+    4. ## ⭐ 在 Vue / Vite 中加载图片的“正确方式”
+  
+       ### 方法 1（最推荐）——使用 JS 导入
+  
+       ```
+       <img :src="imgUrl" />
+       
+       <script setup>
+       import imgUrl from '@/assets/img/tabbar/tab_home.png'
+       </script>
+       ```
+  
+       ### 方法 2（也很常用）——public 目录
+  
+       ```
+       public/tab_home.png
+       <img src="/tab_home.png" />
+       ```
+  
+       ### 方法 3 —— 开发环境用 `/src/...` 也 OK（不推荐生产）
 
 
 
