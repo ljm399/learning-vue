@@ -316,314 +316,314 @@ tabControlRef.value?.innerItemClick(newIndex)
 
 ### 3.1. 自定义指令
 
-- 局部/全局
+#### 3.1.1.局部/全局
 
-  - 局部自定义指令
-
-    ```javascript
-    vue文件中
-    <script setup>
-    //方法一
-    // import { onMounted, ref} from 'vue';
-    // // 获取组件实例
-    // const inputRef = ref()
-    // onMounted(() => {
-    //   inputRef.value.focus()
-    //   console.log("inputRef",inputRef)
-    // })
-    
-    -----------------------------------------
-    //方法二:导入对应方法
-    // import useInput from './hooks/index.js'
-    // const inputRef  = useInput()
-        
-    在./hooks/index.js中
-    import { onMounted, ref} from 'vue';
-    export default function useInput() {
-      const inputRef = ref()
-      onMounted(() => {
-        inputRef.value.focus()
-      })
-      return inputRef 
-    }
-        
-    ---------------------------------
-    //方法三:自定义指令(局部)
-    //注意:v开头f要大写
-    // const vFocus = {
-    //   //mounted是指令的生命周期函数,与setup,compositionAPi什么无关
-    //   mounted(el) {
-    //     el.focus()
-    //   }
-    // }
-    </script>
-    
-    <script>
-    //方法四:局部自定义指令(optionApi)
-    // export default {
-    //   directives: {
-    //     focus: {
-    //       //mounted是指令的生命周期函数,与setup,compositionAPi什么无关
-    //       mounted(el) {
-    //         el?.focus()
-    //         // console.log(el)
-    //       }
-    //     }
-    //   }
-    // }
-    </script>
-    
-    <template>
-      <div class="app">
-        <!-- ref="inputRef"的作用: 为了让js中通过const inputRef = ref()找到ref="inputRef"的input,然后在onMounted中使用 -->
-        <input type="text" ref="inputRef">
-    
-        <h3>自定义指令(焦点获取只能一个,记得注释其他)</h3>
-        <input type="text" v-focusa>
-      </div>
-    </template>
-    <style scoped>
-    </style>
-    ```
-
-  - 全局自定义指令
-
-    - 挂载App的js文件中
-
-      ```JavaScript
-      import { createApp } from 'vue'
-      import App from './1-customDirectives/App.vue'  
-        //方法一focus
-        // const app = createApp(App)
-        // app.directive('focusa', {
-        //   mounted(el) {
-        //     el.focus()
-        // }
-        // })
-        // app.mount('#app')
-      
-      
-        //方法二:导入函数
-        //看导入的路径)
-        // import directiveFocus from './1-customDirectives/globalDirectives/focus'
-        // import dierctiveFtime from './1-customDirectives/globalDirectives/ftime'
-        // const app = createApp(App)
-        // app.use(directiveFocus).use(dierctiveFtime).mount('#app')
-       
-      
-        //方法三:方法二和方法一的问题相同,其他指令还有要在这里导入然后app.use(directiveFocus).use(dierctiveFtime).mount('#app')
-        //解决:找一个文件,专门管理各种指令即方法三在1/globlDirectives/index.js
-        //方法三:使用vue-plugin插件
-        import directive from './1-customDirectives/globalDirectives'
-        createApp(App).use(directive).mount('#app')
-      
-      -------------------------------------------
-      方法三中的directive
-      作用也是思想:先把所有自定义组件引入到一个文件,再统一返回
-      import directiveFocus from "./focus";
-      import directiveUnit from "./unit";
-      import directiveFtime from "./ftime";
-      export default function directive(app) {
-        directiveFocus(app);
-        directiveUnit(app);
-        directiveFtime(app);
-      }
-      ```
-
-  - 全局自定义指令运用的思想:先把所有自定义组件引入到一个文件,再统一返回
-
-    
-
-    
-
-- 生命周期函数
+- 局部自定义指令
 
   ```javascript
+  vue文件中
   <script setup>
-  //自定义指令的生命周期
-  import { ref } from "vue";
-  const count = ref(0);
-  const showTitle = ref(true);
-  const vCao = {
-    created() {
-      console.log("created:绑定的元素的属性或事件监听器应用之前执行");
-    },
-   beforeMount() {
-      console.log("beforeMount:组件挂载之前执行");
-    },
-    mounted() {
-      console.log("mounted:组件挂载之后执行");
-    },
-    beforeUpdate() {
-      console.log("beforeUpdate:组件更新之前执行");
-    },
-    updated() {
-      console.log("updated:组件更新之后执行");
-    },
-    beforeUnmount() {
-      console.log("beforeUnmount:组件卸载之前执行");
-    },
-    unmounted() {
-      console.log("unmounted:组件卸载之后执行");
-    }
-  }
+  //方法一
+  // import { onMounted, ref} from 'vue';
+  // // 获取组件实例
+  // const inputRef = ref()
+  // onMounted(() => {
+  //   inputRef.value.focus()
+  //   console.log("inputRef",inputRef)
+  // })
   
-  function change() { 
-    showTitle.value = !showTitle.value; 
+  -----------------------------------------
+  //方法二:导入对应方法
+  // import useInput from './hooks/index.js'
+  // const inputRef  = useInput()
+      
+  在./hooks/index.js中
+  import { onMounted, ref} from 'vue';
+  export default function useInput() {
+    const inputRef = ref()
+    onMounted(() => {
+      inputRef.value.focus()
+    })
+    return inputRef 
   }
+      
+  ---------------------------------
+  //方法三:自定义指令(局部)
+  //注意:v开头f要大写
+  // const vFocus = {
+  //   //mounted是指令的生命周期函数,与setup,compositionAPi什么无关
+  //   mounted(el) {
+  //     el.focus()
+  //   }
+  // }
+  </script>
+  
+  <script>
+  //方法四:局部自定义指令(optionApi)
+  // export default {
+  //   directives: {
+  //     focus: {
+  //       //mounted是指令的生命周期函数,与setup,compositionAPi什么无关
+  //       mounted(el) {
+  //         el?.focus()
+  //         // console.log(el)
+  //       }
+  //     }
+  //   }
+  // }
   </script>
   
   <template>
     <div class="app">
-      <button @click="count++">+1</button>
-  	-- 点击调用了beforeUpdate 和 updated
+      <!-- ref="inputRef"的作用: 为了让js中通过const inputRef = ref()找到ref="inputRef"的input,然后在onMounted中使用 -->
+      <input type="text" ref="inputRef">
   
-  
-      <button @click="change">显示与卸载</button>
-      <h2 v-if="showTitle" v-cao>{{ count }}</h2>
-  	-->点击若卸载 : 调用了 beforeUnmount 和 unmounted
-  	--> 点击若显示: 调用了 created, beforeMount 和 mounted
+      <h3>自定义指令(焦点获取只能一个,记得注释其他)</h3>
+      <input type="text" v-focusa>
     </div>
   </template>
   <style scoped>
   </style>
   ```
 
+#### 3.1.2 全局自定义指令
+
+- 挂载App的js文件中
+
+  ```JavaScript
+  import { createApp } from 'vue'
+  import App from './1-customDirectives/App.vue'  
+    //方法一focus
+    // const app = createApp(App)
+    // app.directive('focusa', {
+    //   mounted(el) {
+    //     el.focus()
+    // }
+    // })
+    // app.mount('#app')
+  
+  
+    //方法二:导入函数
+    //看导入的路径)
+    // import directiveFocus from './1-customDirectives/globalDirectives/focus'
+    // import dierctiveFtime from './1-customDirectives/globalDirectives/ftime'
+    // const app = createApp(App)
+    // app.use(directiveFocus).use(dierctiveFtime).mount('#app')
+   
+  
+    //方法三:方法二和方法一的问题相同,其他指令还有要在这里导入然后app.use(directiveFocus).use(dierctiveFtime).mount('#app')
+    //解决:找一个文件,专门管理各种指令即方法三在1/globlDirectives/index.js
+    //方法三:使用vue-plugin插件
+    import directive from './1-customDirectives/globalDirectives'
+    createApp(App).use(directive).mount('#app')
+  
+  -------------------------------------------
+  方法三中的directive
+  作用也是思想:先把所有自定义组件引入到一个文件,再统一返回
+  import directiveFocus from "./focus";
+  import directiveUnit from "./unit";
+  import directiveFtime from "./ftime";
+  export default function directive(app) {
+    directiveFocus(app);
+    directiveUnit(app);
+    directiveFtime(app);
+  }
+  ```
+  
+- 全局自定义指令运用的思想:先把所有自定义组件引入到一个文件,再统一返回
+
   
 
-- 参数 - 修饰符- 值
+  
+
+#### 3.1.3.生命周期函数
+
+```javascript
+<script setup>
+//自定义指令的生命周期
+import { ref } from "vue";
+const count = ref(0);
+const showTitle = ref(true);
+const vCao = {
+  created() {
+    console.log("created:绑定的元素的属性或事件监听器应用之前执行");
+  },
+ beforeMount() {
+    console.log("beforeMount:组件挂载之前执行");
+  },
+  mounted() {
+    console.log("mounted:组件挂载之后执行");
+  },
+  beforeUpdate() {
+    console.log("beforeUpdate:组件更新之前执行");
+  },
+  updated() {
+    console.log("updated:组件更新之后执行");
+  },
+  beforeUnmount() {
+    console.log("beforeUnmount:组件卸载之前执行");
+  },
+  unmounted() {
+    console.log("unmounted:组件卸载之后执行");
+  }
+}
+
+function change() { 
+  showTitle.value = !showTitle.value; 
+}
+</script>
+
+<template>
+  <div class="app">
+    <button @click="count++">+1</button>
+	-- 点击调用了beforeUpdate 和 updated
+
+
+    <button @click="change">显示与卸载</button>
+    <h2 v-if="showTitle" v-cao>{{ count }}</h2>
+	-->点击若卸载 : 调用了 beforeUnmount 和 unmounted
+	--> 点击若显示: 调用了 created, beforeMount 和 mounted
+  </div>
+</template>
+<style scoped>
+</style>
+```
+
+
+
+#### 3.1.4.参数 - 修饰符- 值
+
+```javascript
+//el即element的缩写
+const message = "指令的参数和修饰符"
+const vCao = {
+  mounted(el, bindings) {
+    // console.log('el',el) // 当前指令作用的dom元素
+    console.log('bindings.arg',bindings.arg)//argmmmmm
+    console.log('bindings.value',bindings.value)//即值message
+    console.log('bindings.modifiers',bindings.modifiers)//即对象包含着修饰符
+   
+   // 修改不是响应式数据的message
+   // 能修改成功原因: 指令内部并没有依赖Vue的响应式机制去更新视图。而是通过原生的JavaScript代码，在组件挂载时，一次性地、强制地把 message 的值写进了对应的HTML标签里
+    setTimeout(() => {
+      el.textContent = bindings.value 
+    },2000)
+  },
+    
+  // message修改后这个updated没有调用原因也是 指令内部并没有依赖Vue的响应式机制去更新视图
+  updated() {
+    console.log('updated')
+  }
+}
+</script>
+<template>
+  <div class="app">
+    <h3>指令的参数和修饰符</h3>
+    <!-- argm是参数--mj和abc是修饰符--message是值(三者可以只留一个或两个) -->
+    <!-- message的值不能是0,false,null那些,否则h4不显示 -->
+    <h4 v-cao:argmmmmm.mj.abc="message">我是参数</h4>
+  </div>
+
+```
+
+
+
+##### 案例练习
+
+- 注意: 自定义指令的值必须加引号如v-unit="'$'" , 不然他会把它当变量而非字符串导致报错 
+
+- 人民币符号
 
   ```javascript
-  //el即element的缩写
-  const message = "指令的参数和修饰符"
-  const vCao = {
-    mounted(el, bindings) {
-      // console.log('el',el) // 当前指令作用的dom元素
-      console.log('bindings.arg',bindings.arg)//argmmmmm
-      console.log('bindings.value',bindings.value)//即值message
-      console.log('bindings.modifiers',bindings.modifiers)//即对象包含着修饰符
-     
-     // 修改不是响应式数据的message
-     // 能修改成功原因: 指令内部并没有依赖Vue的响应式机制去更新视图。而是通过原生的JavaScript代码，在组件挂载时，一次性地、强制地把 message 的值写进了对应的HTML标签里
-      setTimeout(() => {
-        el.textContent = bindings.value 
-      },2000)
-    },
-      
-    // message修改后这个updated没有调用原因也是 指令内部并没有依赖Vue的响应式机制去更新视图
-    updated() {
-      console.log('updated')
-    }
-  }
-  </script>
   <template>
     <div class="app">
-      <h3>指令的参数和修饰符</h3>
-      <!-- argm是参数--mj和abc是修饰符--message是值(三者可以只留一个或两个) -->
-      <!-- message的值不能是0,false,null那些,否则h4不显示 -->
-      <h4 v-cao:argmmmmm.mj.abc="message">我是参数</h4>
+      <!-- 练习一:给钱加上¥ -->
+      <!-- 没加ref,也可以修改template,上面有解释 -->
+      <!-- 注意:value必须加引号如'¥',不然他会把它当变量而非字符串导致报错 -->
+      <h4 v-unit="'$'">44</h4>
     </div>
+  </template>
+  <style scoped>
+  </style>
   
+  ---------------------------
+  js文件中
+  export default function directiveUnit(app) {
+    app.directive('unit', {
+      //el即element的缩写
+      mounted(el, bindings) {
+        const price = el.textContent
+        let unit = bindings.value
+        if(!unit) {
+          unit = '¥'
+        }
+        console.log(bindings.value)
+        el.textContent = unit + price
+      } 
+    })
+  }
   ```
 
   
 
-- 案例练习
+  #### 时间格式化
 
-  - ​    注意: 自定义指令的值必须加引号如v-unit="'$'" , 不然他会把它当变量而非字符串导致报错 
+  - 知识:10位即单位是秒,13位单位毫秒 
 
-  - 人民币符号
-
-    ```javascript
-    <template>
-      <div class="app">
-        <!-- 练习一:给钱加上¥ -->
-        <!-- 没加ref,也可以修改template,上面有解释 -->
-        <!-- 注意:value必须加引号如'¥',不然他会把它当变量而非字符串导致报错 -->
-        <h4 v-unit="'$'">44</h4>
-      </div>
-    </template>
-    <style scoped>
-    </style>
-    
-    ---------------------------
-    js文件中
-    export default function directiveUnit(app) {
-      app.directive('unit', {
-        //el即element的缩写
-        mounted(el, bindings) {
-          const price = el.textContent
-          let unit = bindings.value
-          if(!unit) {
-            unit = '¥'
-          }
-          console.log(bindings.value)
-          el.textContent = unit + price
-        } 
-      })
-    }
-    ```
-
-    
-
-  - 时间格式化
-
-    - 知识:10位即单位是秒,13位单位毫秒 
-
-    ```javascript
-    <script setup>
-    const timestamp = 1648270539;
-    </script>
-    <template>
-      <div class="app">
-        <!-- 练习二:时间戳格式化 -->
-        <!-- 知识:10位即单位是秒,13位单位毫秒 -->
-        <!-- 注意:1,不能是xxxx/xx/xx,2,必须加引号不然自变量 -->
-        <h2 v-ftime="'YYYY/MM/DD'">{{ timestamp }}</h2>
-        <h2 v-ftime>{{ 1232314321657 }}</h2>
-      </div>
-    </template>
-    
-    --------------------------------
-    js文件
-    //要先npm i dayjs 
-    import dayjs from 'dayjs';
-    export default function directiveFtime(app) {
-      app.directive('ftime', {
-        mounted(el, bindings) {
-          //1,获取组件的时间
-          let timestamp = el.textContent
-          if(timestamp.length === 10) {
-            timestamp = timestamp * 1000
-          }
-          //2,获取传入的参数(即用户想要的格式是xx-xx-xx还是xx/xx/xx)
-          let value = bindings.value
-          if(!value) {
-            value = 'YYYY-MM-DD HH:mm:ss'
-          }
-          //3,格式化时间
-          console.log('timestamp', timestamp)//day.js可以是时间戳也可以是时间格式(如:2018-09-05)
-          const formatTime = dayjs(timestamp).format(value)
-          el.textContent = formatTime
+  ```javascript
+  <script setup>
+  const timestamp = 1648270539;
+  </script>
+  <template>
+    <div class="app">
+      <!-- 练习二:时间戳格式化 -->
+      <!-- 知识:10位即单位是秒,13位单位毫秒 -->
+      <!-- 注意:1,不能是xxxx/xx/xx,2,必须加引号不然自变量 -->
+      <h2 v-ftime="'YYYY/MM/DD'">{{ timestamp }}</h2>
+      <h2 v-ftime>{{ 1232314321657 }}</h2>
+    </div>
+  </template>
+  
+  --------------------------------
+  js文件
+  //要先npm i dayjs 
+  import dayjs from 'dayjs';
+  export default function directiveFtime(app) {
+    app.directive('ftime', {
+      mounted(el, bindings) {
+        //1,获取组件的时间
+        let timestamp = el.textContent
+        if(timestamp.length === 10) {
+          timestamp = timestamp * 1000
         }
-      })
-    }
-    ```
+        //2,获取传入的参数(即用户想要的格式是xx-xx-xx还是xx/xx/xx)
+        let value = bindings.value
+        if(!value) {
+          value = 'YYYY-MM-DD HH:mm:ss'
+        }
+        //3,格式化时间
+        console.log('timestamp', timestamp)//day.js可以是时间戳也可以是时间格式(如:2018-09-05)
+        const formatTime = dayjs(timestamp).format(value)
+        el.textContent = formatTime
+      }
+    })
+  }
+  ```
 
-    
+  
 
 
 
 
 ### 3.2. 内置组件补充
 
-- teleport
+#### 3.2.1.teleport
 
-  - 属性:
-    1. to:指定移动到的位置
-    2. disabled:是否禁用teleport组件
-  - 作用:
-    - 将teleport组件中的部分内容移动到指定的位置:比如:将teleport组件中的部分内容移动到当前template的app之外(脱离dom树
+- 属性:
+  1. to:指定移动到的位置
+  2. disabled:是否禁用teleport组件
+- 作用:
+  - 将teleport组件中的部分内容移动到指定的位置:比如:将teleport组件中的部分内容移动到当前template的app之外(脱离dom树
 
 
   ```vue
@@ -670,42 +670,43 @@ tabControlRef.value?.innerItemClick(newIndex)
 
     
 
-- suspense
 
-  -   suspense组件(测试,随时会被移除) 
-       作用: 当异步数据/异步组件(不按执行顺序)可能无法显示,则会显示你自定义报错内容
-  -    两个属性
-    1. #default:如果default可以显示就显示   
-    2. #fallback:若default不行,则显示fallback 
+#### 3.2.2. suspense
 
-  ```vue
-  <script setup>
-  // 异步组件
-  import { defineAsyncComponent } from 'vue';
-  const N1 = defineAsyncComponent(() => import('./01-teleport.vue'));
-  </script>
-  
-  <template>
-    <div class="app">
-      <Suspense>
-        <template #default>
-          <!-- 显示组件 -->
-          <N1 />
-        </template>
-        <template #fallback>
-          <h3>404,请刷新重试</h3>
-        </template>
-      </Suspense>
-    </div>
-  ```
+-   suspense组件(测试,随时会被移除) 
+     作用: 当异步数据/异步组件(不按执行顺序)可能无法显示,则会显示你自定义报错内容
+-    两个属性
+  1. #default:如果default可以显示就显示   
+  2. #fallback:若default不行,则显示fallback 
 
-  
+```vue
+<script setup>
+// 异步组件
+import { defineAsyncComponent } from 'vue';
+const N1 = defineAsyncComponent(() => import('./01-teleport.vue'));
+</script>
 
+<template>
+  <div class="app">
+    <Suspense>
+      <template #default>
+        <!-- 显示组件 -->
+        <N1 />
+      </template>
+      <template #fallback>
+        <h3>404,请刷新重试</h3>
+      </template>
+    </Suspense>
+  </div>
+```
 
 
 
 
-### 3.3. 插件的安装
+
+
+
+### 3.3. vue的插件的安装
 
 -  插入的模式有两种:
 

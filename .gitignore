@@ -2,6 +2,7 @@
 node_modules
 /dist
 hy-trip
+ai-hy-trip
 
 
 # local env files

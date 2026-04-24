@@ -250,6 +250,20 @@ homeStore.fetchHomeHouselist()
 
 ```javascript
 <v-md :model-value="oak" @update:model-value="oak = $event"></v-md>
+
+内部
+defineEmit([update:model-value])
+emit(updatae:model-value)
+const props = defineProps([model-value])
+
+computed() {
+    getter() {
+        return props.model-value
+    }
+    setter() {
+        
+    }
+}
 ```
 
 - 用来 处理组件库 样式

@@ -575,7 +575,7 @@ const housePics = computed(() => mainPart.value?.topModule?.housePicture?.houseP
 
 
 
-### 2.9. TabControl控制
+### 2.9.`computed` 控制吸顶搜索栏展示和顶部TabControl控制
 
 #### 先写下需求，通过需求看怎么实现
 
